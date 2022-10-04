@@ -22,7 +22,7 @@ namespace RakenduseLoomine_Valkrusman
         Timer timer = new Timer { Interval = 1000 };
         int[] num1=new int[4];
         int[]num2=new int[4];
-        
+        //s
 
         public Matemaatika()
         {
