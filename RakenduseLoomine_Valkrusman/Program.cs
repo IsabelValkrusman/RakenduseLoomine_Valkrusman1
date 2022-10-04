@@ -18,7 +18,7 @@ namespace RakenduseLoomine_Valkrusman
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            Application.Run(new Matemaatika());
+            Application.Run(new mäng());
 
           //  Application.Run(new PildidApp());
 

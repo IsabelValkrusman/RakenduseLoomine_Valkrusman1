@@ -22,14 +22,11 @@ namespace RakenduseLoomine_Valkrusman
         Timer timer = new Timer { Interval = 1000 };
         int[] num1=new int[4];
         int[]num2=new int[4];
-        //s
 
         public Matemaatika()
         {
 
-            this.Size = new Size(680, 400);
-
-            this.Size = new Size(600, 500);
+            this.Size = new Size(860, 400);
 
             tableLayoutPanel = new TableLayoutPanel
             {
@@ -67,7 +64,7 @@ namespace RakenduseLoomine_Valkrusman
                     l_nimed[j, i] = l_nimi;
                     if (j == 1) { text = tehed[i]; }
                     else if (j == 3) { text = "="; }
-                    else if(j== 4) { text = "vastus"; }
+                    //else if(j== 4) { text = "vastus"; }
                     else if (j == 0)
                     {
                         int a = random.Next(10);
@@ -103,42 +100,6 @@ namespace RakenduseLoomine_Valkrusman
             }
             this.Controls.Add(tableLayoutPanel);
             this.Controls.Add(timeLabel);
-
-             
-            
-           
-            for (int i = 0; i< 4; i++)
-            {
-                tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25f));
-                for (int j= 0; j< 5; j++)
-                {
-                    tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20f));
-                    var l_nimi = "L" + j.ToString() + i.ToString() + i.ToString();
-                    l_nimed[j, i] = l_nimi;
-                    if (j==1)
-                    {
-                        Text = tehed[i];
-                    }
-                    else if (j==3)
-                    {
-                        Text = "=";
-                    }
-                    else if (j == 4)
-                     {
-                 Text = "vastus";
-                    }
-                    else
-                    {
-                    Text = l_nimi;
-                    }
-                Label l = new Label { Text = text };
-                tableLayoutPanel.Controls.Add(l, j, i);
-                }
-
-
-            }
-
-
 
 
         }
