@@ -5,133 +5,85 @@ using System.Windows.Forms;
 namespace RakenduseLoomine_Valkrusman
 {
 
-    public class PildidApp : Form1
+    public class PildidApp : Form
     {
         TableLayoutPanel tableLayoutPanel;
-        FlowLayoutPanel flowLayoutPanel;
         PictureBox pictureBox;
-        PictureBox pilt;
         CheckBox checkBox;
-        Button clear_btn;
-        Button show_btn;
-        Button close_btn;
+        Button close_btn, show_btn, clear_btn;
+        FlowLayoutPanel flowLayoutPanel;
         OpenFileDialog openFileDialog;
-        int x = 150;
-        int y = 450;
-
+        ColorDialog colorDialog;
         public PildidApp()
         {
             this.Text = "Pildid";
-            this.ClientSize = new System.Drawing.Size(900, 500);
-            this.tableLayoutPanel = new TableLayoutPanel
+            this.Size = new System.Drawing.Size(790, 440);
+            openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "JPEG Files(*.jpg) | *.jpg | PNG Files(*.png) | *.png | BMP Files(*.bmp) | *.bmp | All files(*.*) | *.*";
+            colorDialog = new ColorDialog();
+            tableLayoutPanel = new TableLayoutPanel
             {
                 AutoSize = true,
-                Dock = DockStyle.Fill,
                 ColumnCount = 2,
                 RowCount = 2,
-
-                Location = new System.Drawing.Point(20, 0),
-                Size =new System.Drawing.Size(300, 400),
-
-                
-
+                Location = new System.Drawing.Point(20, 20),
                 TabIndex = 0,
                 BackColor = System.Drawing.Color.White,
             };
+            tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
+            tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 85F));
+            tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 90F));
+            tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
 
-            this.Controls.Add(tableLayoutPanel);
-
-            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle
-                (System.Windows.Forms.SizeType.Percent, 15f));
-            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle
-                (System.Windows.Forms.SizeType.Percent, 85f));
-            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.RowStyle
-                (System.Windows.Forms.SizeType.Percent, 90f));
-            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.RowStyle
-                (System.Windows.Forms.SizeType.Percent, 10f));
-            this.tableLayoutPanel.ResumeLayout(false);
-
-
-            //this.pilt = new PictureBox
-            //{
-            //    Image = new Bitmap(@"..\..\france.jpg"),
-            //    Location = new Point(x, y),
-            //    Size = new Size(100, 100),
-            //    SizeMode = PictureBoxSizeMode.Zoom
-            //};
-
-
-            this.pilt = new PictureBox
+            pictureBox = new System.Windows.Forms.PictureBox
             {
-                Image = new Bitmap(@"..\..\france.jpg"),
-                Location = new Point(x, y),
-                Size = new Size(100, 100),
-                SizeMode = PictureBoxSizeMode.Zoom
-            };
-
-            this.tableLayoutPanel.Controls.Add(pilt, 10, 0);
-            this.tableLayoutPanel.SetCellPosition(pilt, new TableLayoutPanelCellPosition(0, 0));
-            this.tableLayoutPanel.SetColumnSpan(pilt, 2);
-
-            this.pictureBox = new System.Windows.Forms.PictureBox
-            {
-
-                Image = new Bitmap(@"..\..\france.jpg"),
-
                 BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D,
                 Dock = System.Windows.Forms.DockStyle.Fill,
                 TabIndex = 0,
                 TabStop = false,
+                AutoSize = false,
             };
-            this.tableLayoutPanel.Controls.Add(pictureBox, 0, 0);
-            this.tableLayoutPanel.SetCellPosition(pictureBox, new TableLayoutPanelCellPosition(0, 0));
-            this.tableLayoutPanel.SetColumnSpan(pictureBox, 2);
+            pictureBox.DoubleClick += PictureBox_DoubleClick;
+            tableLayoutPanel.Controls.Add(pictureBox, 0, 0);
+            tableLayoutPanel.SetCellPosition(pictureBox, new TableLayoutPanelCellPosition(0, 0));
+            tableLayoutPanel.SetColumnSpan(pictureBox, 2);
 
-
-            this.checkBox = new CheckBox
+            checkBox = new CheckBox
             {
                 Text = "Venita",
                 Dock = System.Windows.Forms.DockStyle.Fill,
             };
-            this.tableLayoutPanel.Controls.Add(checkBox, 1, 0);
-            this.Controls.Add(tableLayoutPanel);
+            checkBox.CheckedChanged += CheckBox_CheckedChanged;
+            tableLayoutPanel.Controls.Add(checkBox, 1, 0);
 
-
-            this.close_btn = new Button
+            close_btn = new Button
             {
-                Text = "Pane Kinni",
-                Dock = System.Windows.Forms.DockStyle.Fill,
+                Text = "Kinni",
             };
-            this.clear_btn = new Button
+            clear_btn = new Button
             {
-                Text = "Näita",
-                Dock = System.Windows.Forms.DockStyle.Fill,
+                Text = "Kustuta",
             };
-            this.show_btn = new Button
+            show_btn = new Button
             {
                 Text = "Näita",
-                Dock = System.Windows.Forms.DockStyle.Fill,
             };
-
-            this.show_btn.Click += Tegevus;
-            this.clear_btn.Click += Tegevus;
-            this.close_btn.Click += Tegevus;
+            show_btn.Click += Tegevus;
+            clear_btn.Click += Tegevus;
+            close_btn.Click += Tegevus;
             Button[] buttons = { clear_btn, show_btn, close_btn };
-            this.flowLayoutPanel = new FlowLayoutPanel
+            flowLayoutPanel = new FlowLayoutPanel
             {
                 Dock = System.Windows.Forms.DockStyle.Fill,
                 FlowDirection = FlowDirection.RightToLeft,
                 AutoSize = true,
                 WrapContents = false,
-                AutoScroll = true,
-                Location = new System.Drawing.Point(0, 0),
-                Size = new System.Drawing.Size(300, 50),
+                BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
             };
-            foreach (Button button in buttons)
-            {
-                this.flowLayoutPanel.Controls.Add(button);
-            }
-            this.tableLayoutPanel.Controls.Add(flowLayoutPanel, 1, 0);
+            flowLayoutPanel.Controls.AddRange(buttons);
+            tableLayoutPanel.Controls.Add(flowLayoutPanel, 1, 1);
+
+            this.Controls.Add(tableLayoutPanel);
 
         }
 
@@ -144,17 +96,32 @@ namespace RakenduseLoomine_Valkrusman
                 {
                     pictureBox.Load(openFileDialog.FileName);
                 }
-
             }
-            else if (nupp_sender.Text == "kustuta")
+            else if (nupp_sender.Text == "Kustuta")
             {
                 pictureBox.Image = null;
             }
-            else if (nupp_sender.Text == "kinni")
+            else if (nupp_sender.Text == "Kinni")
             {
                 this.Close();
             }
         }
+
+        private void CheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox.Checked)
+                pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+            else
+                pictureBox.SizeMode = PictureBoxSizeMode.Normal;
+        }
+
+        private void PictureBox_DoubleClick(object sender, EventArgs e)
+        {
+            if (colorDialog.ShowDialog() == DialogResult.OK)
+                this.BackColor = colorDialog.Color;
+        }
+
+
     }
 }
 

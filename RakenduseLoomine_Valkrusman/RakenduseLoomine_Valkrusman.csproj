@@ -55,8 +55,11 @@
     <Compile Include="Matemaatika.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="mäng.cs">
+    <Compile Include="mängudeKogum.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="mängudeKogum.Designer.cs">
+      <DependentUpon>mängudeKogum.cs</DependentUpon>
     </Compile>
     <Compile Include="PildidApp.cs">
       <SubType>Form</SubType>
