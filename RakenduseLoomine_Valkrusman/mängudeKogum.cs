@@ -10,47 +10,179 @@ using System.Windows.Forms;
 
 namespace RakenduseLoomine_Valkrusman
 {
-    public partial class mängudeKogum : Form
+    public partial class mängudeKogum: Form
     {
-        public Button nupp,nupp1,nupp2;
-            public mängudeKogum( string Nupp)
+        FlowLayoutPanel flowLayoutPanel;
+        Button close_btn;
+        Random random = new Random();
+        List<string> icons = new List<string>()
+        {
+            "?", "?", "k", "k", "v", "v", "u", "u",
+            "e", "e", "a", "a", "t", "t", "n", "n"
+        };
+        TableLayoutPanel tableLayoutPanel1 = new TableLayoutPanel();
+        Label lbl1;
+        int r = 0;//rida
+        int t = 0;//tulp
+
+        public Timer timer = new Timer { Interval = 500 };//aeg pildi paari leidmiseks
+
+        Label firstClicked = null;
+        Label secondClicked = null;
+
+        public mängudeKogum()
+        {
+            this.Size = new System.Drawing.Size(900, 900);
+            this.Text = "Mäng - leia pildi paar";
+            this.MaximizeBox = false;
+
+            tableLayoutPanel1 = new TableLayoutPanel()
             {
+                ColumnCount = 4,
+                Location = new System.Drawing.Point(3, 4),
+                RowCount = 4,
+                Size = new System.Drawing.Size(550, 550),
+                TabIndex = 0,
+                CellBorderStyle = TableLayoutPanelCellBorderStyle.Inset,
+                BackColor = System.Drawing.Color.CornflowerBlue,
+            };
+            close_btn = new Button
+            {
+                Text = "Kinni",
+            };
+            close_btn.Click += Tegevus;
+            Button[] buttons = {close_btn};
 
-                this.ClientSize = new System.Drawing.Size(300, 300);
-                nupp = new Button
+            flowLayoutPanel = new FlowLayoutPanel
+            {
+                Dock = System.Windows.Forms.DockStyle.Fill,
+                FlowDirection = FlowDirection.RightToLeft,
+                AutoSize = true,
+                WrapContents = false,
+                BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+            };
+            flowLayoutPanel.Controls.AddRange(buttons);
+          
+
+
+
+
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+
+            this.Controls.Add(this.tableLayoutPanel1);
+
+
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j <= 3; j++)
                 {
-                    Text=Nupp,
-                    //Text = "matemaatika",
-                    Location = new System.Drawing.Point(30, 50),
-                    Size = new System.Drawing.Size(100, 50),
-                    BackColor = System.Drawing.Color.AliceBlue,
+                    lbl1 = new Label()
+                    {
+                        BackColor = System.Drawing.Color.CornflowerBlue,
+                        AutoSize = false,
+                        Dock = System.Windows.Forms.DockStyle.Fill,
+                        TextAlign = System.Drawing.ContentAlignment.MiddleCenter,
+                        Font = new System.Drawing.Font("Webdings", 48, System.Drawing.FontStyle.Bold),//näitab kujukesed tähtede asemel
+                        Text = "c",
+                    };
+                    tableLayoutPanel1.Controls.Add(lbl1, r, t);
+                    r++;
 
-                };
-               
-
-                nupp1 = new Button
-                {
-                    Text = Nupp,
-                    //Text = "mäng",
-                    Location = new System.Drawing.Point(50, 50),
-                    Size = new System.Drawing.Size(100, 50),
-                    BackColor = System.Drawing.Color.AliceBlue,
-
-                };
-              
-
-                nupp2 = new Button
-                {
-                    Text = Nupp,
-                    //Text = "Pilt",
-                    Location = new System.Drawing.Point(70, 50),
-                    Size = new System.Drawing.Size(100, 50),
-                    BackColor = System.Drawing.Color.AliceBlue,
-
-                };
-                this.Controls.Add(nupp);
-
+                }
+                t++;
+                r = 0;
             }
-        
+            foreach (Control control in tableLayoutPanel1.Controls)//ikoonide randoomne lisamine
+            {
+                Label iconLabel1 = control as Label;
+                if (iconLabel1 != null)
+                {
+                    int randomNumber = random.Next(icons.Count);
+                    iconLabel1.Text = icons[randomNumber];
+                    icons.RemoveAt(randomNumber);
+                }
+                iconLabel1.ForeColor = iconLabel1.BackColor;
+                iconLabel1.Click += Lbl1_Click;
+            }
+            timer.Tick += Timer_Tick;
+        }
+
+        private void Tegevus(object sender, EventArgs e)
+        {
+            Button nupp_sender = (Button)sender;
+            if (nupp_sender.Text == "Kinni")
+            {
+                this.Close();
+            }
+        }
+
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            timer.Stop();
+
+            firstClicked.ForeColor = firstClicked.BackColor;
+            secondClicked.ForeColor = secondClicked.BackColor;
+
+            firstClicked = null;
+            secondClicked = null;
+        }
+        private void Lbl1_Click(object sender, EventArgs e)
+        {
+            if (timer.Enabled == true)
+                return;
+
+            Label clickedLabel = sender as Label;
+
+            if (clickedLabel != null)
+            {
+                if (clickedLabel.ForeColor == Color.Black)
+                    return;
+
+                if (firstClicked == null)
+                {
+                    firstClicked = clickedLabel;
+                    firstClicked.ForeColor = Color.Black;
+                    return;
+                }
+
+                secondClicked = clickedLabel;
+                secondClicked.ForeColor = Color.Black;
+
+                CheckForWinner();
+
+                if (firstClicked.Text == secondClicked.Text)
+                {
+                    firstClicked = null;
+                    secondClicked = null;
+                    return;
+                }
+
+                timer.Start();
+            }
+        }
+        public void CheckForWinner()
+        {
+            foreach (Control control in tableLayoutPanel1.Controls)
+            {
+                Label iconLabel = control as Label;
+
+                if (iconLabel != null)
+                {
+                    if (iconLabel.ForeColor == iconLabel.BackColor)
+                        return;
+                }
+            }
+            MessageBox.Show("Leitud on kõik paarid!", "Palju õnne!");
+            Close();
+        }
     }
 }
