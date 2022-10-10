@@ -179,10 +179,14 @@ namespace RakenduseLoomine_Valkrusman
                 {
                     if (iconLabel.ForeColor == iconLabel.BackColor)
                         return;
+                     MessageBox.Show("Liiga palju katseid mängime edasi ", ":[");
+                    
                 }
+               
             }
-            MessageBox.Show("Leitud on kõik paarid!", "Palju õnne!");
+            MessageBox.Show("Leitud on kõik paarid! ", "Palju õnne!");
             Close();
+
         }
     }
 }
