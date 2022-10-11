@@ -128,6 +128,8 @@ namespace RakenduseLoomine_Valkrusman
                     
                     
                     Text = "Minu esimene vorm",
+                     width=400,
+                    Height=200,
                     Font = new Font("Arial", 15, FontStyle.Italic),
                     Location = new Point(400, 300),
                     Enabled = false
@@ -142,6 +144,8 @@ namespace RakenduseLoomine_Valkrusman
 
 
                     Text = "f",
+                     width=400,
+                    Height=200,
                     Font = new Font("Arial", 15, FontStyle.Italic),
                     Location = new Point(400, 300),
                     Enabled = false
@@ -156,6 +160,8 @@ namespace RakenduseLoomine_Valkrusman
 
                     //TextBox.Size = new Size(228, 25),
                     Text = "Mi",
+                    width=400,
+                    Height=200,
                     Font = new Font("Arial", 15, FontStyle.Italic),
                     Location = new Point(400, 300),
                     Enabled = false
