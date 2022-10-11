@@ -15,12 +15,12 @@ namespace RakenduseLoomine_Valkrusman
         PictureBox pictureBox;
         OpenFileDialog openFileDialog;
         Label timeLabel;
-        Button close_btn, show_btn, clear_btn;
+        Button close_btn, show_btn, clear_btn, uued_tehted;
         TableLayoutPanel tableLayoutPanel;
         NumericUpDown[] vastused = new NumericUpDown[4];//{ summa, lahutamine, jagamine, korrutamine };
-        string[,] l_nimed;
+        string[,] l_nimed = new string[5, 4];
         string text;
-        string[] tehed = new string[4] { "+", "-", "/", "*" };
+        string[] tehted = new string[4] { "+", "-", "/", "*" };
         Random random = new Random(10);
         Timer timer = new Timer { Interval = 1000 };
         int[] num1=new int[4];
@@ -67,64 +67,26 @@ namespace RakenduseLoomine_Valkrusman
             {
                 Text = "Näita",
             };
+
+            uued_tehted = new Button
+            {
+                Text = "Uued tehted",
+                Location = new System.Drawing.Point(700, 250)
+            };
             show_btn.Click += Tegevus;
             clear_btn.Click += Tegevus;
             close_btn.Click += Tegevus;
+            uued_tehted.Click += Tegevus;
             Button[] buttons = { clear_btn, show_btn, close_btn };
 
-
-            string[,] l_nimed = new string[5, 4];
             timer.Enabled = true;
             timer.Tick += Timer_Tick;
             this.DoubleClick += Matemaatika_DoubleClick1;
-            
-            for (int i = 0; i < 4; i++)
-            {
-                tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25f));
-                for (int j = 0; j < 5; j++)
-                {
-                    tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20f));
-                    var l_nimi = "L" + j.ToString() + i.ToString() ;
-                    l_nimed[j, i] = l_nimi;
-                    if (j == 1) { text = tehed[i]; }
-                    else if (j == 3) { text = "="; }
-                    //else if(j== 4) { text = "vastus"; }
-                    else if (j == 0)
-                    {
-                        int a = random.Next(10);
-                        text = a.ToString();
-                        num1[i] = a;
-                        
-                    }
-                    else if (j == 2)
-                    {
-                        int a = random.Next(10);
-                        text = a.ToString();
-                        num2[i] =a;
-                    }
-                     if (j == 4)
-                    {
-                        vastused[i] = new NumericUpDown 
-                        {
-                            Name = tehed[i],
-                            DecimalPlaces = 2,
-                            Minimum=-10
-                        };
-                        tableLayoutPanel.Controls.Add(vastused[i], j, i);
-                    }
-                    else
-                    {
-                        Label l = new Label { Text = text };
-                        tableLayoutPanel.Controls.Add(l, j, i);
-                    }
-                    
-                }
 
-
-            }
+            Loo_Tehted(); 
             this.Controls.Add(tableLayoutPanel);
             this.Controls.Add(timeLabel);
-
+            this.Controls.Add(uued_tehted);
 
         }
         int tik = 0;
@@ -146,6 +108,11 @@ namespace RakenduseLoomine_Valkrusman
             else if (nupp_sender.Text == "Kinni")
             {
                 this.Close();
+            }
+            else if (nupp_sender.Text == "Uued tehted")
+            { 
+                Loo_Tehted();
+                tik = 0;
             }
         }
 
@@ -169,6 +136,67 @@ namespace RakenduseLoomine_Valkrusman
 
             }
             else { return false; }
+        }
+
+        private void Loo_Tehted()
+        {
+            Kustuta_Vanad();
+            for (int rida = 0; rida < 4; rida++)
+            {
+                tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25f));
+                for (int tulp = 0; tulp < 5; tulp++)
+                {
+                    tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20f));
+                    var l_nimi = "L" + tulp.ToString() + rida.ToString();
+                    this.l_nimed[tulp, rida] = l_nimi;
+                    if (tulp == 1) {
+                        text = tehted[rida]; 
+                    }
+                    else if (tulp == 3) { 
+                        text = "="; 
+                    }
+                 
+                    else if (tulp == 0)
+                    {
+                        int a = random.Next(10);
+                        text = a.ToString();
+                        num1[rida] = a;
+
+                    }
+                    else if (tulp == 2)
+                    {
+                        int a = random.Next(10);
+                        text = a.ToString();
+                        num2[rida] = a;
+                    }
+                    if (tulp == 4)
+                    {
+                        vastused[rida] = new NumericUpDown
+                        {
+                            Name = tehted[rida],
+                            DecimalPlaces = 2,
+                            Minimum = -10
+                        };
+                        tableLayoutPanel.Controls.Add(vastused[rida], tulp, rida);
+                    }
+                    else
+                    {
+                        Label l = new Label { Text = text };
+                        tableLayoutPanel.Controls.Add(l, tulp, rida);
+                    }
+
+                }
+
+
+            }
+        }
+
+        private void Kustuta_Vanad()
+        {
+            while (this.tableLayoutPanel.Controls.Count > 0)
+            {
+                this.tableLayoutPanel.Controls[0].Dispose();
+            }
         }
 
         private void Timer_Tick(object sender, EventArgs e)
