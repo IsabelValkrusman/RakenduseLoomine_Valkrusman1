@@ -12,7 +12,10 @@ namespace RakenduseLoomine_Valkrusman
 {
     public partial class Matemaatika : Form
     {
+        PictureBox pictureBox;
+        OpenFileDialog openFileDialog;
         Label timeLabel;
+        Button close_btn, show_btn, clear_btn;
         TableLayoutPanel tableLayoutPanel;
         NumericUpDown[] vastused = new NumericUpDown[4];//{ summa, lahutamine, jagamine, korrutamine };
         string[,] l_nimed;
@@ -22,6 +25,7 @@ namespace RakenduseLoomine_Valkrusman
         Timer timer = new Timer { Interval = 1000 };
         int[] num1=new int[4];
         int[]num2=new int[4];
+       
 
         public Matemaatika()
         {
@@ -48,7 +52,27 @@ namespace RakenduseLoomine_Valkrusman
                 Font = new Font("Arial", 24, FontStyle.Bold),
 
 
+
             };
+
+            close_btn = new Button
+            {
+                Text = "Kinni",
+            };
+            clear_btn = new Button
+            {
+                Text = "Kustuta",
+            };
+            show_btn = new Button
+            {
+                Text = "Näita",
+            };
+            show_btn.Click += Tegevus;
+            clear_btn.Click += Tegevus;
+            close_btn.Click += Tegevus;
+            Button[] buttons = { clear_btn, show_btn, close_btn };
+
+
             string[,] l_nimed = new string[5, 4];
             timer.Enabled = true;
             timer.Tick += Timer_Tick;
@@ -104,6 +128,26 @@ namespace RakenduseLoomine_Valkrusman
 
         }
         int tik = 0;
+
+        private void Tegevus(object sender, EventArgs e)
+        {
+            Button nupp_sender = (Button)sender;
+            if (nupp_sender.Text == "Näita")
+            {
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    pictureBox.Load(openFileDialog.FileName);
+                }
+            }
+            else if (nupp_sender.Text == "Kustuta")
+            {
+                pictureBox.Image = null;
+            }
+            else if (nupp_sender.Text == "Kinni")
+            {
+                this.Close();
+            }
+        }
 
         private void Matemaatika_DoubleClick1(object sender, EventArgs e)
         {
