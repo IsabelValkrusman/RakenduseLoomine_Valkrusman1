@@ -207,9 +207,9 @@ namespace RakenduseLoomine_Valkrusman
                 }
               
             }
-            if(koikLeitud)
+            if (koikLeitud)
             {
-               MessageBox.Show("Leitud on kõik paarid! ", "Palju õnne!");
+                MessageBox.Show("Leitud on kõik paarid! ", "Palju õnne!");
             }
         }
     }

@@ -87,7 +87,7 @@ namespace RakenduseLoomine_Valkrusman
             this.Controls.Add(tableLayoutPanel);
             this.Controls.Add(timeLabel);
             this.Controls.Add(uued_tehted);
-
+            this.Controls.Add(close_btn);
         }
         int tik = 0;
 

@@ -13,14 +13,14 @@ namespace RakenduseLoomine_Valkrusman
     {
         TreeView puu;
         Button pildid, matemaatika, mäng;
-        TextBox tekst, tekst1, tekst2, tekst3;
+        TextBox tekst;
         Label silt;
 
 
         public kõikMängud()
         {
             Height = 600;
-            Width = 800;
+            Width = 1100;
             Text = "Kolm erinevat mängu ja informatsioon nende kohta";
             BackColor = Color.LightBlue;
             puu = new TreeView();
@@ -114,7 +114,7 @@ namespace RakenduseLoomine_Valkrusman
                 tekst = new TextBox
                 {
                     Font = new Font("Arial", 34, FontStyle.Italic),
-                    Location = new Point(350, 400),
+                    Location = new Point(130, 100),
                     Enabled = false
                 };
                  tekst.DoubleClick += Puu_DoubleClick;
@@ -123,51 +123,51 @@ namespace RakenduseLoomine_Valkrusman
 
             else if (e.Node.Text == "PildiApp")
             {
-                tekst1 = new TextBox
+                tekst = new TextBox
                 {
                     
                     
-                    Text = "Minu esimene vorm",
-                     width=400,
+                    Text = "Vali enda pilt, ja võid venitada ja kustutada seda!",
+                    Width=800,
                     Height=200,
                     Font = new Font("Arial", 15, FontStyle.Italic),
-                    Location = new Point(400, 300),
+                    Location = new Point(130, 150),
                     Enabled = false
                 };
-                 tekst1.DoubleClick += Puu_DoubleClick;
-                this.Controls.Add(tekst1);
+                 tekst.DoubleClick += Puu_DoubleClick;
+                this.Controls.Add(tekst);
             }
             else if (e.Node.Text == "Matemaatika")
             {
-                tekst2 = new TextBox
+                tekst = new TextBox
                 {
 
 
-                    Text = "f",
-                     width=400,
+                    Text = "Lahenda teheid, ja kui ei saa hakkama siis vajuta nuppu ja saad teised tehed!",
+                    Width=800,
                     Height=200,
                     Font = new Font("Arial", 15, FontStyle.Italic),
-                    Location = new Point(400, 300),
+                    Location = new Point(130, 250),
                     Enabled = false
                 };
-                 tekst2.DoubleClick += Puu_DoubleClick;
-                this.Controls.Add(tekst2);
+                 tekst.DoubleClick += Puu_DoubleClick;
+                this.Controls.Add(tekst);
             }
             else if (e.Node.Text == "Mäng")
             {
-                tekst3 = new TextBox
+                tekst = new TextBox
                 {
 
                     //TextBox.Size = new Size(228, 25),
-                    Text = "Mi",
-                    width=400,
+                    Text = "Leia õige paar, sul on ainult 10 katset!",
+                    Width=800,
                     Height=200,
                     Font = new Font("Arial", 15, FontStyle.Italic),
-                    Location = new Point(400, 300),
+                    Location = new Point(130, 350),
                     Enabled = false
                 };
-                 tekst3.DoubleClick += Puu_DoubleClick;
-                this.Controls.Add(tekst3);
+                 tekst.DoubleClick += Puu_DoubleClick;
+                this.Controls.Add(tekst);
             }
         }
 
