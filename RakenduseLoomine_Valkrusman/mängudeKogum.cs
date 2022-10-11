@@ -24,7 +24,9 @@ namespace RakenduseLoomine_Valkrusman
         Label lbl1;
         int r = 0;//rida
         int t = 0;//tulp
-
+        int maksimumKatseid = 10;
+        int praegusedKatsed = 0;
+        Dictionary<string, bool> leitudPaarid = new Dictionary<string, bool>();
         public Timer timer = new Timer { Interval = 500 };//aeg pildi paari leidmiseks
 
         Label firstClicked = null;
@@ -100,6 +102,15 @@ namespace RakenduseLoomine_Valkrusman
                 t++;
                 r = 0;
             }
+            foreach(string kaart in icons) // märgime kõik paarid kui mitte leitud
+            {   
+                if(!leitudPaarid.ContainsKey(kaart))
+                {
+                    leitudPaarid.Add(kaart, false);
+                }
+                
+            }
+
             foreach (Control control in tableLayoutPanel1.Controls)//ikoonide randoomne lisamine
             {
                 Label iconLabel1 = control as Label;
@@ -157,36 +168,49 @@ namespace RakenduseLoomine_Valkrusman
                 secondClicked = clickedLabel;
                 secondClicked.ForeColor = Color.Black;
 
-                CheckForWinner();
-
                 if (firstClicked.Text == secondClicked.Text)
                 {
+                    leitudPaarid[firstClicked.Text] = true;
                     firstClicked = null;
                     secondClicked = null;
+                    CheckForWinner();
                     return;
+                } else
+                {
+                    praegusedKatsed += 1;
+                    CheckForWinner();
                 }
-
                 timer.Start();
+                
             }
         }
         public void CheckForWinner()
         {
-            foreach (Control control in tableLayoutPanel1.Controls)
+            bool koikLeitud = false;
+            foreach (var item in leitudPaarid) 
             {
-                Label iconLabel = control as Label;
-
-                if (iconLabel != null)
+              bool leitud = item.Value;
+              if(!leitud)
                 {
-                    if (iconLabel.ForeColor == iconLabel.BackColor)
-                        return;
-                     MessageBox.Show("Liiga palju katseid mängime edasi ", ":[");
-                    
+                    if (this.praegusedKatsed < this.maksimumKatseid)
+                    {
+                        koikLeitud = false;
+                        break;
+                    } else
+                    {
+                        MessageBox.Show("Mäng läbi - liiga palju katseid", ":[");
+                        break;
+                    }
+                } else
+                {
+                   koikLeitud = true;
                 }
-               
+              
             }
-            MessageBox.Show("Leitud on kõik paarid! ", "Palju õnne!");
-            Close();
-
+            if(koikLeitud)
+            {
+               MessageBox.Show("Leitud on kõik paarid! ", "Palju õnne!");
+            }
         }
     }
 }
