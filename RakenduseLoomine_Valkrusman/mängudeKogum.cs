@@ -31,7 +31,7 @@ namespace RakenduseLoomine_Valkrusman
 
 
 
-
+        
         public mängudeKogum()
         {
             this.Size = new System.Drawing.Size(900, 900);
