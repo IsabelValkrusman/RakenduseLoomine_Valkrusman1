@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Media;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ namespace RakenduseLoomine_Valkrusman
     public partial class Matemaatika : Form
     {
         PictureBox pictureBox;
+        SoundPlayer soundPlayer;
         OpenFileDialog openFileDialog;
         Label timeLabel;
         Button close_btn, show_btn, clear_btn, uued_tehted;
@@ -31,7 +33,7 @@ namespace RakenduseLoomine_Valkrusman
         {
 
             this.Size = new Size(860, 400);
-
+            this.soundPlayer = new SoundPlayer(@"..\..\game.wav");
             tableLayoutPanel = new TableLayoutPanel
             {
                 AutoSize = true,
@@ -84,6 +86,7 @@ namespace RakenduseLoomine_Valkrusman
             timer.Tick += Timer_Tick;
             this.DoubleClick += Matemaatika_DoubleClick1;
 
+            playSimpleSound();
             Loo_Tehted(); 
             this.Controls.Add(tableLayoutPanel);
             this.Controls.Add(timeLabel);
@@ -108,6 +111,7 @@ namespace RakenduseLoomine_Valkrusman
             }
             else if (nupp_sender.Text == "Kinni")
             {
+                soundPlayer.Stop();
                 this.Close();
             }
             else if (nupp_sender.Text == "Uued tehted")
@@ -117,6 +121,11 @@ namespace RakenduseLoomine_Valkrusman
             }
         }
 
+        private void playSimpleSound()
+        {
+
+            this.soundPlayer.Play();
+        }
         private void Matemaatika_DoubleClick1(object sender, EventArgs e)
         {
             timer.Start();

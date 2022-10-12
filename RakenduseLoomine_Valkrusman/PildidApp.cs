@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Media;
 using System.Windows.Forms;
 
 namespace RakenduseLoomine_Valkrusman
@@ -10,6 +11,7 @@ namespace RakenduseLoomine_Valkrusman
         TableLayoutPanel tableLayoutPanel;
         PictureBox pictureBox;
         CheckBox checkBox;
+        SoundPlayer soundPlayer;
         Button close_btn, show_btn, clear_btn;
         FlowLayoutPanel flowLayoutPanel;
         OpenFileDialog openFileDialog;
@@ -18,6 +20,7 @@ namespace RakenduseLoomine_Valkrusman
         {
             this.Text = "Pildid";
             this.Size = new System.Drawing.Size(790, 440);
+            this.soundPlayer = new SoundPlayer(@"..\..\game.wav");
             openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "JPEG Files(*.jpg) | *.jpg | PNG Files(*.png) | *.png | BMP Files(*.bmp) | *.bmp | All files(*.*) | *.*";
             colorDialog = new ColorDialog();
@@ -71,6 +74,7 @@ namespace RakenduseLoomine_Valkrusman
             show_btn.Click += Tegevus;
             clear_btn.Click += Tegevus;
             close_btn.Click += Tegevus;
+            playSimpleSound();
             Button[] buttons = { clear_btn, show_btn, close_btn };
             flowLayoutPanel = new FlowLayoutPanel
             {
@@ -87,6 +91,11 @@ namespace RakenduseLoomine_Valkrusman
 
         }
 
+        private void playSimpleSound()
+        {
+
+            this.soundPlayer.Play();
+        }
         private void Tegevus(object sender, EventArgs e)
         {
             Button nupp_sender = (Button)sender;
@@ -103,6 +112,7 @@ namespace RakenduseLoomine_Valkrusman
             }
             else if (nupp_sender.Text == "Kinni")
             {
+                soundPlayer.Stop();
                 this.Close();
             }
         }

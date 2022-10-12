@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Media;
 using System.Windows.Forms;
 
 namespace RakenduseLoomine_Valkrusman
@@ -10,6 +11,7 @@ namespace RakenduseLoomine_Valkrusman
         FlowLayoutPanel flowLayoutPanel;
         Button closeBtn, startAgainBtn;
         Random random = new Random();
+        SoundPlayer soundPlayer;
         List<string> icons = new List<string>()
         {
             "?", "?", "k", "k", "v", "v", "u", "u",
@@ -18,7 +20,7 @@ namespace RakenduseLoomine_Valkrusman
         TableLayoutPanel tableLayoutPanel1;
         //int r = 0;//rida
         //int t = 0;//tulp
-        int maksimumKatseid = 50;
+        int maksimumKatseid = 10;
         int praegusedKatsed = 0;
         Dictionary<string, bool> leitudPaarid = new Dictionary<string, bool>();
         public Timer timer = new Timer { Interval = 500 };//aeg pildi paari leidmiseks
@@ -35,6 +37,7 @@ namespace RakenduseLoomine_Valkrusman
             this.Size = new System.Drawing.Size(900, 900);
             this.Text = "Mäng - leia pildi paar";
             this.MaximizeBox = false;
+            this.soundPlayer = new SoundPlayer(@"..\..\game.wav");
 
             this.tableLayoutPanel1 = new TableLayoutPanel()
             {
@@ -67,11 +70,15 @@ namespace RakenduseLoomine_Valkrusman
             };
             startAgainBtn.Click += Tegevus;
 
+          
+
+
 
             //Button[] buttons = {close_btn};
             //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             this.Controls.Add(startAgainBtn);
             this.Controls.Add(closeBtn);
+           
 
             flowLayoutPanel = new FlowLayoutPanel
             {
@@ -86,6 +93,7 @@ namespace RakenduseLoomine_Valkrusman
 
             CreateCards();
             CreateSquares();
+            playSimpleSound();
 
             timer.Tick += Timer_Tick;
         }
@@ -95,6 +103,7 @@ namespace RakenduseLoomine_Valkrusman
             Button nupp_sender = (Button)sender;
             if (nupp_sender.Text == "Kinni")
             {
+                soundPlayer.Stop();
                 this.Close();
             }
             else if (nupp_sender.Text == "Alusta Uuesti")
@@ -156,9 +165,18 @@ namespace RakenduseLoomine_Valkrusman
 
             }
         }
+
+        private void playSimpleSound()
+        {
+            
+            this.soundPlayer.Play();
+        }
+
         private void StartAgain()
         {
+            
             timer.Stop();
+            praegusedKatsed = 0;
             this.tableLayoutPanel1.Controls.Clear();
             this.Controls.Remove(this.tableLayoutPanel1);
             icons = new List<string>() {
@@ -252,7 +270,7 @@ namespace RakenduseLoomine_Valkrusman
                         MessageBox.Show("Mäng läbi - liiga palju katseid", ":[");
                         break;
                     }
-                }
+               }
                 else
                 {
                     leitudPaare++;
