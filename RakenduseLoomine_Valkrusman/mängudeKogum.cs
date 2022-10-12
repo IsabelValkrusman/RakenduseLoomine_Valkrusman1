@@ -1,41 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace RakenduseLoomine_Valkrusman
 {
-    public partial class mängudeKogum: Form
+    public partial class mängudeKogum : Form
     {
-        TableLayoutPanel tableLayoutPanel;
         FlowLayoutPanel flowLayoutPanel;
-        Button close_btn, uued_tehed;
+        Button closeBtn, startAgainBtn;
         Random random = new Random();
         List<string> icons = new List<string>()
         {
             "?", "?", "k", "k", "v", "v", "u", "u",
             "e", "e", "a", "a", "t", "t", "n", "n"
         };
-        TableLayoutPanel tableLayoutPanel1 = new TableLayoutPanel();
-        Label lbl1;
-        int r = 0;//rida
-        int t = 0;//tulp
-        int maksimumKatseid = 10;
+        TableLayoutPanel tableLayoutPanel1;
+        //int r = 0;//rida
+        //int t = 0;//tulp
+        int maksimumKatseid = 50;
         int praegusedKatsed = 0;
         Dictionary<string, bool> leitudPaarid = new Dictionary<string, bool>();
         public Timer timer = new Timer { Interval = 500 };//aeg pildi paari leidmiseks
 
         Label firstClicked = null;
         Label secondClicked = null;
-        
 
 
-       
+
+
 
         public mängudeKogum()
         {
@@ -43,7 +36,7 @@ namespace RakenduseLoomine_Valkrusman
             this.Text = "Mäng - leia pildi paar";
             this.MaximizeBox = false;
 
-            tableLayoutPanel1 = new TableLayoutPanel()
+            this.tableLayoutPanel1 = new TableLayoutPanel()
             {
                 ColumnCount = 4,
                 Location = new System.Drawing.Point(3, 4),
@@ -53,30 +46,32 @@ namespace RakenduseLoomine_Valkrusman
                 CellBorderStyle = TableLayoutPanelCellBorderStyle.Inset,
                 BackColor = System.Drawing.Color.CornflowerBlue,
             };
-            close_btn = new Button
+            this.Controls.Add(this.tableLayoutPanel1);
+
+            closeBtn = new Button
             {
                 Text = "Kinni",
                 Height = 50,
                 Width = 100,
                 Location = new System.Drawing.Point(700, 250)
             };
-            close_btn.Click += Tegevus;
+            closeBtn.Click += Tegevus;
 
-            uued_tehed = new Button
+            startAgainBtn = new Button
             {
                 Text = "Alusta Uuesti",
-                Height =50,
-                Width=100,
+                Height = 50,
+                Width = 100,
                 Location = new System.Drawing.Point(700, 150)
-                
-            };
-            uued_tehed.Click += Tegevus;
 
-            
+            };
+            startAgainBtn.Click += Tegevus;
+
+
             //Button[] buttons = {close_btn};
             //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            this.Controls.Add(uued_tehed);
-            this.Controls.Add(close_btn);
+            this.Controls.Add(startAgainBtn);
+            this.Controls.Add(closeBtn);
 
             flowLayoutPanel = new FlowLayoutPanel
             {
@@ -89,63 +84,9 @@ namespace RakenduseLoomine_Valkrusman
             //flowLayoutPanel.Controls.AddRange(buttons);
 
 
+            CreateCards();
+            CreateSquares();
 
-
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-
-            this.Controls.Add(this.tableLayoutPanel1);
-           
-
-
-            for (int i = 0; i < 4; i++)
-            {
-                for (int j = 0; j <= 3; j++)
-                {
-                    lbl1 = new Label()
-                    {
-                        BackColor = System.Drawing.Color.CornflowerBlue,
-                        AutoSize = false,
-                        Dock = System.Windows.Forms.DockStyle.Fill,
-                        TextAlign = System.Drawing.ContentAlignment.MiddleCenter,
-                        Font = new System.Drawing.Font("Webdings", 48, System.Drawing.FontStyle.Bold),//näitab kujukesed tähtede asemel
-                        Text = "c",
-                    };
-                    tableLayoutPanel1.Controls.Add(lbl1, r, t);
-                    r++;
-
-                }
-                t++;
-                r = 0;
-            }
-            foreach(string kaart in icons) // märgime kõik paarid kui mitte leitud
-            {   
-                if(!leitudPaarid.ContainsKey(kaart))
-                {
-                    leitudPaarid.Add(kaart, false);
-                }
-                
-            }
-
-            foreach (Control control in tableLayoutPanel1.Controls)//ikoonide randoomne lisamine
-            {
-                Label iconLabel1 = control as Label;
-                if (iconLabel1 != null)
-                {
-                    int randomNumber = random.Next(icons.Count);
-                    iconLabel1.Text = icons[randomNumber];
-                    icons.RemoveAt(randomNumber);
-                }
-                iconLabel1.ForeColor = iconLabel1.BackColor;
-                iconLabel1.Click += Lbl1_Click;
-            }
             timer.Tick += Timer_Tick;
         }
 
@@ -156,17 +97,14 @@ namespace RakenduseLoomine_Valkrusman
             {
                 this.Close();
             }
-            //else if (nupp_sender.Text == "Uued tehted")
-            //{
-            //    Loo_Tehed();
+            else if (nupp_sender.Text == "Alusta Uuesti")
+            {
+                StartAgain();
+            }
 
-            //}
         }
 
-        //public alustaUuesti()
-        //{
-        //    InitializeComponent();
-        //}
+
 
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -208,58 +146,121 @@ namespace RakenduseLoomine_Valkrusman
                     secondClicked = null;
                     CheckForWinner();
                     return;
-                } else
+                }
+                else
                 {
                     praegusedKatsed += 1;
                     CheckForWinner();
                 }
                 timer.Start();
-                
+
             }
         }
-        //private void Kustuta_Vanad()
-        //{
-        //    public PlayAgain()
-        //    {
-        //        InitializeComponent();
-        //    }
+        private void StartAgain()
+        {
+            timer.Stop();
+            this.tableLayoutPanel1.Controls.Clear();
+            this.Controls.Remove(this.tableLayoutPanel1);
+            icons = new List<string>() {
+            "?", "?", "k", "k", "v", "v", "u", "u",
+            "e", "e", "a", "a", "t", "t", "n", "n"
+             };
+            CreateCards();
+            this.Controls.Add(this.tableLayoutPanel1);
+        }
 
-        //    private void button1_Click(object sender, EventArgs e)
-        //    {
-        //        init();
-        //    }
-        //}
+        public void CreateCards()
+        {
+
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j <= 3; j++)
+                {
+                    Label label = new Label()
+                    {
+                        BackColor = System.Drawing.Color.CornflowerBlue,
+                        AutoSize = false,
+                        Dock = System.Windows.Forms.DockStyle.Fill,
+                        TextAlign = System.Drawing.ContentAlignment.MiddleCenter,
+                        Font = new System.Drawing.Font("Webdings", 48, System.Drawing.FontStyle.Bold), //näitab kujukesed tähtede asemel
+                    };
+                    this.tableLayoutPanel1.Controls.Add(label);
+
+
+                }
+
+            }
+            foreach (string kaart in icons) // märgime kõik paarid kui mitte leitud
+            {
+                leitudPaarid.Clear();
+                if (!leitudPaarid.ContainsKey(kaart))
+                {
+                    leitudPaarid.Add(kaart, false);
+                }
+
+            }
+
+            foreach (Control control in tableLayoutPanel1.Controls)//ikoonide randoomne lisamine
+            {
+                Label iconLabel1 = control as Label;
+                if (iconLabel1 != null)
+                {
+                    int randomNumber = random.Next(icons.Count);
+                    if (icons.Count > 0)
+                    {
+                        iconLabel1.Text = icons[randomNumber];
+                        icons.RemoveAt(randomNumber);
+                    }
+
+                }
+                iconLabel1.ForeColor = iconLabel1.BackColor;
+                iconLabel1.Click += Lbl1_Click;
+            }
+        }
+
+        public void CreateSquares()
+        {
+
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+        }
 
         public void CheckForWinner()
         {
             //Kustuta_Vanad();
-            bool koikLeitud = false;
-            foreach (var item in leitudPaarid) 
+            int leitudPaare = 0;
+            foreach (var item in leitudPaarid)
             {
-              bool leitud = item.Value;
-              if(!leitud)
-              {
+                bool leitud = item.Value;
+                if (!leitud)
+                {
                     if (this.praegusedKatsed < this.maksimumKatseid)
                     {
-                        koikLeitud = false;
-                        break;
-                    } 
-                    else
-                    {
-                        MessageBox.Show("Mäng läbi - liiga palju katseid", ":[");
-                      
+
                         break;
                     }
-              }
-              else
-              {
-                   koikLeitud = true;
-                    
-              }
-               
+                    else
+                    {
 
+                        MessageBox.Show("Mäng läbi - liiga palju katseid", ":[");
+                        break;
+                    }
+                }
+                else
+                {
+                    leitudPaare++;
+                }
             }
-            if (koikLeitud)
+
+
+            if (leitudPaare == 8)
             {
                 MessageBox.Show("Leitud on kõik paarid! ", "Palju õnne!");
                 this.Close();
