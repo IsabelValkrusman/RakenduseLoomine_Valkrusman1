@@ -12,8 +12,9 @@ namespace RakenduseLoomine_Valkrusman
 {
     public partial class mängudeKogum: Form
     {
+        TableLayoutPanel tableLayoutPanel;
         FlowLayoutPanel flowLayoutPanel;
-        Button close_btn;
+        Button close_btn, uued_tehed;
         Random random = new Random();
         List<string> icons = new List<string>()
         {
@@ -31,6 +32,10 @@ namespace RakenduseLoomine_Valkrusman
 
         Label firstClicked = null;
         Label secondClicked = null;
+        
+
+
+       
 
         public mängudeKogum()
         {
@@ -51,9 +56,27 @@ namespace RakenduseLoomine_Valkrusman
             close_btn = new Button
             {
                 Text = "Kinni",
+                Height = 50,
+                Width = 100,
+                Location = new System.Drawing.Point(700, 250)
             };
             close_btn.Click += Tegevus;
-            Button[] buttons = {close_btn};
+
+            uued_tehed = new Button
+            {
+                Text = "Alusta Uuesti",
+                Height =50,
+                Width=100,
+                Location = new System.Drawing.Point(700, 150)
+                
+            };
+            uued_tehed.Click += Tegevus;
+
+            
+            //Button[] buttons = {close_btn};
+            //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            this.Controls.Add(uued_tehed);
+            this.Controls.Add(close_btn);
 
             flowLayoutPanel = new FlowLayoutPanel
             {
@@ -63,8 +86,7 @@ namespace RakenduseLoomine_Valkrusman
                 WrapContents = false,
                 BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
             };
-            flowLayoutPanel.Controls.AddRange(buttons);
-          
+            //flowLayoutPanel.Controls.AddRange(buttons);
 
 
 
@@ -80,6 +102,7 @@ namespace RakenduseLoomine_Valkrusman
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
 
             this.Controls.Add(this.tableLayoutPanel1);
+           
 
 
             for (int i = 0; i < 4; i++)
@@ -133,7 +156,17 @@ namespace RakenduseLoomine_Valkrusman
             {
                 this.Close();
             }
+            //else if (nupp_sender.Text == "Uued tehted")
+            //{
+            //    Loo_Tehed();
+
+            //}
         }
+
+        //public alustaUuesti()
+        //{
+        //    InitializeComponent();
+        //}
 
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -184,33 +217,54 @@ namespace RakenduseLoomine_Valkrusman
                 
             }
         }
+        //private void Kustuta_Vanad()
+        //{
+        //    public PlayAgain()
+        //    {
+        //        InitializeComponent();
+        //    }
+
+        //    private void button1_Click(object sender, EventArgs e)
+        //    {
+        //        init();
+        //    }
+        //}
+
         public void CheckForWinner()
         {
+            //Kustuta_Vanad();
             bool koikLeitud = false;
             foreach (var item in leitudPaarid) 
             {
               bool leitud = item.Value;
               if(!leitud)
-                {
+              {
                     if (this.praegusedKatsed < this.maksimumKatseid)
                     {
                         koikLeitud = false;
                         break;
-                    } else
+                    } 
+                    else
                     {
                         MessageBox.Show("Mäng läbi - liiga palju katseid", ":[");
+                      
                         break;
                     }
-                } else
-                {
+              }
+              else
+              {
                    koikLeitud = true;
-                }
-              
+                    
+              }
+               
+
             }
             if (koikLeitud)
             {
                 MessageBox.Show("Leitud on kõik paarid! ", "Palju õnne!");
+                this.Close();
             }
+
         }
     }
 }

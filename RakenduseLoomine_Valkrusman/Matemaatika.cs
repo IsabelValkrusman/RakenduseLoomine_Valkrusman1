@@ -50,7 +50,7 @@ namespace RakenduseLoomine_Valkrusman
                 BorderStyle = BorderStyle.FixedSingle,
                 Size = new Size(200, 30),
                 Font = new Font("Arial", 24, FontStyle.Bold),
-
+                
 
 
             };
@@ -58,6 +58,7 @@ namespace RakenduseLoomine_Valkrusman
             close_btn = new Button
             {
                 Text = "Kinni",
+                Location = new System.Drawing.Point(600, 250)
             };
             clear_btn = new Button
             {

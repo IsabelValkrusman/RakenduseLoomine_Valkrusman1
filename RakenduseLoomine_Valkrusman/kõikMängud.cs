@@ -38,24 +38,24 @@ namespace RakenduseLoomine_Valkrusman
            
             pildid = new Button()
             {
-                Text = "PildiApp",
+                Text = "Enda Pilt!",
                 Location = new System.Drawing.Point(130, 100),
-                Size = new System.Drawing.Size(100, 50),
-                BackColor = Color.LawnGreen,
+                Size = new System.Drawing.Size(200, 50),
+                BackColor = Color.LightPink,
             };
             matemaatika = new Button()
             {
-                Text = "matemaatika",
+                Text = "Matemaatika Tehted!",
                 Location = new System.Drawing.Point(130, 200),
-                Size = new System.Drawing.Size(100, 50),
-                BackColor = Color.LawnGreen,
+                Size = new System.Drawing.Size(200, 50),
+                BackColor = Color.LightPink,
             };
             mäng = new Button()
             {
-                Text = "mäng",
+                Text = "Mäng, Leia õige paar!",
                 Location = new System.Drawing.Point(130, 300),
-                Size = new System.Drawing.Size(100, 50),
-                BackColor = Color.LawnGreen,
+                Size = new System.Drawing.Size(200, 50),
+                BackColor = Color.LightPink,
             };
             pildid.Click += Pildid_Click;
             matemaatika.Click += Matemaatika_Click;
@@ -143,7 +143,7 @@ namespace RakenduseLoomine_Valkrusman
                 {
 
 
-                    Text = "Lahenda teheid, ja kui ei saa hakkama siis vajuta nuppu ja saad teised tehed!",
+                    Text = "Lahenda teheid, ja kui ei saa hakkama siis vajuta nuppu ja saad teised tehed lahendada!",
                     Width=800,
                     Height=200,
                     Font = new Font("Arial", 15, FontStyle.Italic),
@@ -159,7 +159,7 @@ namespace RakenduseLoomine_Valkrusman
                 {
 
                     //TextBox.Size = new Size(228, 25),
-                    Text = "Leia õige paar, sul on ainult 10 katset!",
+                    Text = "Leia õige paar, sul on ainult 10 katset, kui ei jõua alusta uuesti mäng!",
                     Width=800,
                     Height=200,
                     Font = new Font("Arial", 15, FontStyle.Italic),
