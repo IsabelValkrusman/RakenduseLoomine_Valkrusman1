@@ -22,7 +22,7 @@ namespace RakenduseLoomine_Valkrusman
             Height = 600;
             Width = 1100;
             Text = "Kolm erinevat mängu ja informatsioon nende kohta";
-            BackColor = Color.LightBlue;
+            BackColor = Color.LightGreen;
             puu = new TreeView();
             puu.Dock = DockStyle.Left;
             puu.Location = new Point(0, 0);

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32.SafeHandles;
+using System;
 using System.Drawing;
 using System.Media;
 using System.Windows.Forms;
@@ -12,10 +13,14 @@ namespace RakenduseLoomine_Valkrusman
         PictureBox pictureBox;
         CheckBox checkBox;
         SoundPlayer soundPlayer;
-        Button close_btn, show_btn, clear_btn;
+        Button close_btn, show_btn, clear_btn, color_btn, zoom_btn;
         FlowLayoutPanel flowLayoutPanel;
         OpenFileDialog openFileDialog;
         ColorDialog colorDialog;
+        private object mouseDownLoc;
+        
+       
+
         public PildidApp()
         {
             this.Text = "Pildid";
@@ -37,6 +42,11 @@ namespace RakenduseLoomine_Valkrusman
             tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 85F));
             tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 90F));
             tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+
+
+
+
+
 
             pictureBox = new System.Windows.Forms.PictureBox
             {
@@ -71,11 +81,22 @@ namespace RakenduseLoomine_Valkrusman
             {
                 Text = "Näita",
             };
+            color_btn = new Button
+            {
+                Text = "Vali värv",
+            };
+            zoom_btn = new Button
+            {
+                Text = "Zoomi pilt",
+            };
             show_btn.Click += Tegevus;
             clear_btn.Click += Tegevus;
             close_btn.Click += Tegevus;
+            color_btn.Click += Tegevus;
+            zoom_btn.Click += Tegevus;
             playSimpleSound();
-            Button[] buttons = { clear_btn, show_btn, close_btn };
+           
+            Button[] buttons = { clear_btn, show_btn, close_btn, color_btn,zoom_btn};
             flowLayoutPanel = new FlowLayoutPanel
             {
                 Dock = System.Windows.Forms.DockStyle.Fill,
@@ -90,6 +111,33 @@ namespace RakenduseLoomine_Valkrusman
             this.Controls.Add(tableLayoutPanel);
 
         }
+
+        private void pbMap_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                Point currentMousePos = e.Location;
+                int distanceX = currentMousePos.X - mouseDownLoc.X;
+                int distanceY = currentMousePos.Y - mouseDownLoc.Y;
+                int newX = zoom_btn.Location.X + distanceX;
+                int newY = zoom_btn.Location.Y + distanceY;
+
+                if (newX + zoom_btn.Image.Width < zoom_btn.Image.Width && zoom_btn.Image.Width + newX > zoom_btn.Width)
+                    zoom_btn.Location = new Point(newX, zoom_btn.Location.Y);
+                if (newY + zoom_btn.Image.Height < zoom_btn.Image.Height && zoom_btn.Image.Height + newY > zoom_btn.Height)
+                    zoom_btn.Location = new Point(zoom_btn.Location.X, newY);
+            }
+        }
+
+
+        private void ZoomIn(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+                zoom_btn = e.Location;
+        }
+
+
+       
 
         private void playSimpleSound()
         {
@@ -114,6 +162,26 @@ namespace RakenduseLoomine_Valkrusman
             {
                 soundPlayer.Stop();
                 this.Close();
+            }
+            else if (color_btn.Text == "Vali värv")
+            {
+                color_btn = new Button();
+                color_btn.Text = "Vajuta siia";
+                color_btn.Height = 30;
+                color_btn.Width = 100;
+                color_btn.BackColor = Color.LightSkyBlue;
+                color_btn.Location = new Point(200, 100);
+                //Click += color_btn;
+                this.Controls.Add(color_btn);
+            }
+            else if (nupp_sender.Text == "Zoomi pilt")
+            {
+
+                if (zoomSlider.Value > 0)
+                {
+                    zoom_btn.Image = null;
+                    zoom_btn.Image = PictureBoxZoom(imgOriginal, new Size(zoomSlider.Value, zoomSlider.Value));
+                }
             }
         }
 
