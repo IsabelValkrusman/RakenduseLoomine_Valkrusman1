@@ -9,6 +9,7 @@ namespace RakenduseLoomine_Valkrusman
 
     public class PildidApp : Form
     {
+        Random random = new Random();
         TableLayoutPanel tableLayoutPanel;
         PictureBox pictureBox;
         CheckBox checkBox;
@@ -17,7 +18,7 @@ namespace RakenduseLoomine_Valkrusman
         FlowLayoutPanel flowLayoutPanel;
         OpenFileDialog openFileDialog;
         ColorDialog colorDialog;
-        private object mouseDownLoc;
+        //private object mouseDownLoc;
         
        
 
@@ -95,8 +96,9 @@ namespace RakenduseLoomine_Valkrusman
             color_btn.Click += Tegevus;
             zoom_btn.Click += Tegevus;
             playSimpleSound();
+            
            
-            Button[] buttons = { clear_btn, show_btn, close_btn, color_btn,zoom_btn};
+            Button[] buttons = { clear_btn, show_btn, close_btn, color_btn, zoom_btn};
             flowLayoutPanel = new FlowLayoutPanel
             {
                 Dock = System.Windows.Forms.DockStyle.Fill,
@@ -112,32 +114,32 @@ namespace RakenduseLoomine_Valkrusman
 
         }
 
-        private void pbMap_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                Point currentMousePos = e.Location;
-                int distanceX = currentMousePos.X - mouseDownLoc.X;
-                int distanceY = currentMousePos.Y - mouseDownLoc.Y;
-                int newX = zoom_btn.Location.X + distanceX;
-                int newY = zoom_btn.Location.Y + distanceY;
+        ////private void pbMap_MouseMove(object sender, MouseEventArgs e)
+        ////{
+        ////    if (e.Button == MouseButtons.Left)
+        ////    {
+        ////        Point currentMousePos = e.Location;
+        ////        int distanceX = currentMousePos.X - mouseDownLoc.X;
+        ////        int distanceY = currentMousePos.Y - mouseDownLoc.Y;
+        ////        int newX = zoom_btn.Location.X + distanceX;
+        ////        int newY = zoom_btn.Location.Y + distanceY;
 
-                if (newX + zoom_btn.Image.Width < zoom_btn.Image.Width && zoom_btn.Image.Width + newX > zoom_btn.Width)
-                    zoom_btn.Location = new Point(newX, zoom_btn.Location.Y);
-                if (newY + zoom_btn.Image.Height < zoom_btn.Image.Height && zoom_btn.Image.Height + newY > zoom_btn.Height)
-                    zoom_btn.Location = new Point(zoom_btn.Location.X, newY);
-            }
-        }
-
-
-        private void ZoomIn(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-                zoom_btn = e.Location;
-        }
+        ////        if (newX + zoom_btn.Image.Width < zoom_btn.Image.Width && zoom_btn.Image.Width + newX > zoom_btn.Width)
+        ////            zoom_btn.Location = new Point(newX, zoom_btn.Location.Y);
+        ////        if (newY + zoom_btn.Image.Height < zoom_btn.Image.Height && zoom_btn.Image.Height + newY > zoom_btn.Height)
+        ////            zoom_btn.Location = new Point(zoom_btn.Location.X, newY);
+        ////    }
+        ////}
 
 
-       
+        //private void ZoomIn(object sender, MouseEventArgs e)
+        //{
+        //    if (e.Button == MouseButtons.Left)
+        //        zoom_btn = e.Location;
+        //}
+
+
+
 
         private void playSimpleSound()
         {
@@ -163,7 +165,7 @@ namespace RakenduseLoomine_Valkrusman
                 soundPlayer.Stop();
                 this.Close();
             }
-            else if (color_btn.Text == "Vali värv")
+            else if (nupp_sender.Text == "Vali värv")
             {
                 color_btn = new Button();
                 color_btn.Text = "Vajuta siia";
@@ -171,18 +173,29 @@ namespace RakenduseLoomine_Valkrusman
                 color_btn.Width = 100;
                 color_btn.BackColor = Color.LightSkyBlue;
                 color_btn.Location = new Point(200, 100);
-                //Click += color_btn;
+                Click += Nupp_Click;
                 this.Controls.Add(color_btn);
             }
-            else if (nupp_sender.Text == "Zoomi pilt")
-            {
+            //else if (nupp_sender.Text == "Zoomi pilt")
+            //{
 
-                if (zoomSlider.Value > 0)
-                {
-                    zoom_btn.Image = null;
-                    zoom_btn.Image = PictureBoxZoom(imgOriginal, new Size(zoomSlider.Value, zoomSlider.Value));
-                }
-            }
+            //    if (zoomSlider.Value > 0)
+            //    {
+            //        zoom_btn.Image = null;
+            //        zoom_btn.Image = PictureBoxZoom(imgOriginal, new Size(zoomSlider.Value, zoomSlider.Value));
+            //    }
+            //}
+        }
+
+        private void Nupp_Click(object sender, EventArgs e)
+        {
+            //color_btn.BackColor = Color.LightYellow;
+            int red, green, blue;
+            red = random.Next(255);
+            green = random.Next(255);
+            blue = random.Next(255);
+            color_btn.BackColor = Color.FromArgb(red, green, blue);
+            BackColor = Color.FromArgb(red, green, blue);
         }
 
         private void CheckBox_CheckedChanged(object sender, EventArgs e)
