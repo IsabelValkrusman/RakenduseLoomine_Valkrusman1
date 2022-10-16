@@ -167,8 +167,12 @@ namespace RakenduseLoomine_Valkrusman
             }
             else if (nupp_sender.Text == "Vali värv")
             {
-                
-                this.Nupp_Click();
+                int red, green, blue;
+                red = random.Next(255);
+                green = random.Next(255);
+                blue = random.Next(255);
+                color_btn.BackColor = Color.FromArgb(red, green, blue);
+                BackColor = Color.FromArgb(red, green, blue);
             }
             //else if (nupp_sender.Text == "Zoomi pilt")
             //{
@@ -179,16 +183,6 @@ namespace RakenduseLoomine_Valkrusman
             //        zoom_btn.Image = PictureBoxZoom(imgOriginal, new Size(zoomSlider.Value, zoomSlider.Value));
             //    }
             //}
-        }
-
-        private void Nupp_Click()
-        {
-            int red, green, blue;
-            red = random.Next(255);
-            green = random.Next(255);
-            blue = random.Next(255);
-            color_btn.BackColor = Color.FromArgb(red, green, blue);
-            BackColor = Color.FromArgb(red, green, blue);
         }
 
         private void CheckBox_CheckedChanged(object sender, EventArgs e)
