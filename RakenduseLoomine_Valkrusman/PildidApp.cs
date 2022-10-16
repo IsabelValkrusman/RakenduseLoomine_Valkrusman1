@@ -85,7 +85,7 @@ namespace RakenduseLoomine_Valkrusman
             color_btn = new Button
             {
                 Text = "Vali värv",
-            };
+        };
             zoom_btn = new Button
             {
                 Text = "Zoomi pilt",
@@ -167,12 +167,7 @@ namespace RakenduseLoomine_Valkrusman
             }
             else if (nupp_sender.Text == "Vali värv")
             {
-                color_btn = new Button();
-                color_btn.Text = "Vajuta siia";
-                color_btn.Height = 30;
-                color_btn.Width = 100;
-                color_btn.BackColor = Color.LightSkyBlue;
-                color_btn.Location = new Point(200, 100);
+                
                 this.Nupp_Click();
             }
             //else if (nupp_sender.Text == "Zoomi pilt")
