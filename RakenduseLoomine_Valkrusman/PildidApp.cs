@@ -173,8 +173,7 @@ namespace RakenduseLoomine_Valkrusman
                 color_btn.Width = 100;
                 color_btn.BackColor = Color.LightSkyBlue;
                 color_btn.Location = new Point(200, 100);
-                Click += Nupp_Click;
-                this.Controls.Add(color_btn);
+                this.Nupp_Click();
             }
             //else if (nupp_sender.Text == "Zoomi pilt")
             //{
@@ -187,9 +186,8 @@ namespace RakenduseLoomine_Valkrusman
             //}
         }
 
-        private void Nupp_Click(object sender, EventArgs e)
+        private void Nupp_Click()
         {
-            //color_btn.BackColor = Color.LightYellow;
             int red, green, blue;
             red = random.Next(255);
             green = random.Next(255);
