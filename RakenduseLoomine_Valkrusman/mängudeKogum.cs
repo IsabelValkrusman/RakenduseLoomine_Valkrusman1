@@ -9,7 +9,7 @@ namespace RakenduseLoomine_Valkrusman
     public partial class mängudeKogum : Form
     {
         FlowLayoutPanel flowLayoutPanel;
-        Button closeBtn, startAgainBtn;
+        Button closeBtn, startAgainBtn, color_btn;
         Random random = new Random();
         SoundPlayer soundPlayer;
         List<string> icons = new List<string>()
@@ -34,8 +34,9 @@ namespace RakenduseLoomine_Valkrusman
         
         public mängudeKogum()
         {
-            this.Size = new System.Drawing.Size(900, 900);
+            this.Size = new System.Drawing.Size(900, 700);
             this.Text = "Mäng - leia pildi paar";
+            BackColor = Color.LightGreen;
             this.MaximizeBox = false;
             this.soundPlayer = new SoundPlayer(@"..\..\game.wav");
 
@@ -47,7 +48,7 @@ namespace RakenduseLoomine_Valkrusman
                 Size = new System.Drawing.Size(550, 550),
                 TabIndex = 0,
                 CellBorderStyle = TableLayoutPanelCellBorderStyle.Inset,
-                BackColor = System.Drawing.Color.CornflowerBlue,
+                BackColor = System.Drawing.Color.HotPink,
             };
             this.Controls.Add(this.tableLayoutPanel1);
 

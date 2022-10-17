@@ -25,6 +25,7 @@ namespace RakenduseLoomine_Valkrusman
         public PildidApp()
         {
             this.Text = "Pildid";
+            BackColor = Color.LightGreen;
             this.Size = new System.Drawing.Size(790, 440);
             this.soundPlayer = new SoundPlayer(@"..\..\game.wav");
             openFileDialog = new OpenFileDialog();

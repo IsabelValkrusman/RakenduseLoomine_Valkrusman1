@@ -103,6 +103,7 @@
     <Content Include="france.jpg" />
     <Content Include="game.wav" />
     <Content Include="game.wav.mp3" />
+    <Content Include="readme.txt" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="NewFolder1\" />

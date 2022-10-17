@@ -34,6 +34,7 @@ namespace RakenduseLoomine_Valkrusman
 
             this.Size = new Size(860, 400);
             this.soundPlayer = new SoundPlayer(@"..\..\game.wav");
+            BackColor = Color.LightGreen;
             tableLayoutPanel = new TableLayoutPanel
             {
                 AutoSize = true,
